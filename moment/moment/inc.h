@@ -1,0 +1,23 @@
+#ifndef MOMENT__INC__H__
+#define MOMENT__INC__H__
+
+
+#define MOMENT__PREINIT
+#define MOMENT__INIT
+
+#define MOMENT__MOMENT_SERVER
+#define MOMENT__PLAYBACK
+#define MOMENT__VIDEO_STREAM
+
+#define MOMENT__MOMENT
+
+#define MOMENT__KEYFILE_DATA NULL
+
+#define MOMENT__RTMP_INC
+#define MOMENT__RTMP_IMPL
+#define MOMENT__RTMP_MESSAGE
+#define MOMENT__RTMP_INIT
+
+
+#endif /* MOMENT__INC__H__ */
+

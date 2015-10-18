@@ -1,0 +1,41 @@
+#   Copyright (C) 2011-2014 Dmitry Shatrov - All Rights Reserved
+#   e-mail: info@momentvideo.org
+#
+#   Unauthorized copying of this file or any part of its contents,
+#   via any medium is strictly prohibited.
+#
+#   Proprietary and confidential.
+
+
+word:
+    { mconfig_word_token_match_func }
+
+value:
+    List) word_opt_seq [,] value
+    Word) word_opt_seq
+
+key:
+    word_seq
+
+attribute:
+    NameValue) <name> word [=] <value> word
+    Name)      <name> word
+
+option:
+    KeyValue) key [=] value [;] / mconfig_accept_option/
+    Key)      key [;]           /!mconfig_accept_option/
+    Newline)  [;]
+
+section-entry:
+    Parameter)  option
+    Subsection) section
+
+section-body:
+    section-entry_opt_seq
+
+section:
+    <name> word_opt attribute_opt_seq [{] /mconfig_begin_section/ section-body [}]
+
+*:
+    section-entry_opt_seq
+

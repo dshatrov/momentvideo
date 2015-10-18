@@ -1,0 +1,24 @@
+COMMON_CFLAGS =                         \
+        -ggdb                           \
+        -Wno-long-long -Wall -Wextra    \
+        `pkg-config --cflags libmary-1.0`
+
+CFLAGS += -std=c99 $(COMMON_CFLAGS)
+CXXFLAGS += -std=c++0x $(COMMON_CFLAGS)
+
+LDFLAGS += `pkg-config --libs libmary-1.0`
+
+.PHONY: all clean
+
+TARGETS = test__cached_file
+
+all: $(TARGETS)
+
+test__mp4_vod: test__cached_file.cpp
+
+%: %.cpp
+	$(CXX) -o $@ $(CXXFLAGS) $^ $(LDFLAGS)
+
+clean:
+	rm -f $(TARGETS)
+

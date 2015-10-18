@@ -1,0 +1,16 @@
+Сборка на FreeBSD.
+
+Нужен компилятор не младше gcc 4.3
+
+pkg_add -r gcc46
+pkg_add -r libtool
+pkg_add -r autotools
+pkg_add -r pkg-config
+
+pkg_add -r gstreamer-ffmpeg
+pkg_add -r gstreamer-plugins-speex
+
+export CC=/usr/local/bin/gcc46
+export CXX=/usr/local/bin/g++46
+./configure --with-select
+

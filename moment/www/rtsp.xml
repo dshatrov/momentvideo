@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mync SYSTEM "entities.dtd">
+
+<moment>
+<moment_docpage/>
+<content>
+  <title>
+    <eng>RTSP video streaming protocol</eng>
+    <rus>Протокол RTSP</rus>
+  </title>
+
+  <moment_toc>
+    <dl>
+      <dt>
+        <a href="hls.ru.html#config">Настройка</a>
+      </dt>
+      <dt>
+        <a href="hls.ru.html#use">Использование</a>
+      </dt>
+      <dt>
+        <a href="hls.ru.html#params">Список параметров</a>
+      </dt>
+    </dl>
+  </moment_toc>
+
+  <p>
+    Протокол RTSP используется для передачи потокового видео на мобильные устройства на базе ОС Android
+    (работает со всеми распространёнными версиями Android)
+    и для просмотра видео в различных видеоплеерах, например в VLC.
+    Поддержку протокола RTSP в видеосервере &laquo;Момент&raquo; обеспечивает модуль <i>mod_rtsp</i>.
+  </p>
+
+  <p>
+    Модуль <i>mod_rtsp</i> поддерживает передачу видео, 
+    закодированного кодеком h.264 и звука, закодированного кодеком AAC.
+  </p>
+
+  <a name="config">
+    <moment_section>
+      Настройка
+    </moment_section>
+  </a>
+
+  <p>
+    В большинстве случаев <i>mod_rtsp</i> не требует какой-либо дополнительной настройки.
+    Достаточно только убедиться в том, что он включен, т.е. что параметр
+    <b>mod_rtsp/enable</b> имеет значение "включено".
+  </p>
+
+  <p>
+    Пример настройки модуля <i>mod_rtsp:</i>
+  </p>
+<pre>
+  mod_rtsp {
+    enable = y
+  }
+</pre>
+
+  <a name="use">
+    <moment_section>
+      Использование
+    </moment_section>
+  </a>
+
+  <p>
+    Ссылки на RTSP-потоки имеют вид:<br/>
+    <tt>rtsp://1.2.3.4:5554/test</tt><br/>
+    где "test" &mdash; имя потока, 1.2.3.4 &mdash; IP-адрес сервера, 5554 &mdash; порт <b>mod_rtsp/rtsp_bind</b> в конфиге.
+  </p>
+
+  <p>
+    Для показа RTSP-видео на веб-странице достаточно использовать тег &lt;video&gt; следующим образом:
+  </p>
+<pre>
+  &lt;video autoplay controls src="rtsp://1.2.3.4:5554/test"&gt;
+    <eng>RTSP protocol support is required to play this video.</eng><rus>Для просмотра видео требуется поддержка протокола RTSP.</rus>
+  &lt;/video&gt;
+</pre>
+
+  <p>
+    Второй вариант показа видео - через нативное приложение, написанное под конкретную мобильную платформу,
+    или отдельным видеоплеером (VLC, MX Player, встроенный плеер Android).
+  </p>
+
+  <a name="config">
+    <moment_section>
+      Список параметров
+    </moment_section>
+  </a>
+
+  <p>
+    Доступные параметры конфигурации модуля <i>mod_rtsp:</i>
+  </p>
+
+<!--  <moment_params> -->
+mod_rtsp/enable
+mod_rtsp/rtsp_bind
+mod_rtsp/enable_tcp
+mod_rtsp/tcp_only
+mod_rtsp/udp_silence
+mod_rtsp/timeout_check_interval
+mod_rtsp/session_request_timeout
+mod_rtsp/connection_request_timeout
+    <p>
+      <b>mod_rtsp/enable</b> &mdash; включить модуль <i>mod_rtsp</i>. По умолчанию: "yes" (<i>mod_rtsp</i> включен).
+    </p>
+    <p>
+      <b>mod_rtsp/rtsp_bind</b> &mdash;
+      <eng>IP address and TCP port to which the server accepts RTMP connections. Default: ":1935"</eng>
+      <rus>IP-адрес интерфейса и порт TCP, на который сервер принимает
+      соединения по протоколу RTSP. По умолчанию: ":5554"<br/></rus>
+      <i>Обратите внимание, что стандартный и наиболее часто используемый порт для протокола RTSP &mdash; 554.</i>
+    </p>
+    <p>
+      <b>mod_rtsp/enable_tcp</b> &mdash; включить поддержку режима TCP-interleaved (транспорт RTP/AVP/TCP).
+      По умолчанию: "yes" (включено).
+    </p>
+    <p>
+      <b>mod_rtsp/tcp_only</b> &mdash; использовать только режим TCP-interleaved.
+      На запросы UDP-подключений (транспорт RTP/AVP/UDP) сервер будет отдавать ошибку 461 Unsupported Transport.
+      По умолчанию: "no" (выключено).
+    </p>
+    <p>
+      <b>mod_rtsp/udp_silence</b> &mdash; принимать UDP-подключения (транспорт RTP/AVP/UDP), но не отправлять
+      никаких данных по UDP. Это можно делать для того, чтобы клиенты по истечении тайамаута
+      выполняли повторное подключение с TCP-транспортом.
+      По умолчанию: "no" (выключено).
+    </p>
+    <p>
+      <b>mod_rtsp/timeout_check_interval</b> &mdash; интервал проверки таймаутов сессий и соединений,
+      контролируемых модулем <i>mod_rtsp</i>, в секундах.
+      По умолчанию: 5 секунд.
+    </p>
+    <p>
+      <b>mod_rtsp/session_request_timeout</b> &mdash; таймаут удаления RTSP-сессий при отсутствии
+      RTSP-запросов к ним.
+      По умолчанию: 65 секунд.
+    </p>
+    <p>
+      <b>mod_rtsp/connection_request_timeout</b> &mdash; таймаут закрытия RTSP-соединений при
+      отсутствии RTSP-запросов.
+      По умолчанию: 90 секунд.
+    </p>
+<!--  </moment_params> -->
+
+</content>
+</moment>
+

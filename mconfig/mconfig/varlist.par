@@ -1,0 +1,24 @@
+#   Copyright (C) 2012-2014 Dmitry Shatrov - All Rights Reserved
+#   e-mail: info@momentvideo.org
+#
+#   Unauthorized copying of this file or any part of its contents,
+#   via any medium is strictly prohibited.
+#
+#   Proprietary and confidential.
+
+
+word: 
+    { varlist_word_token_match_func }
+
+section-specifier:
+    Enable)  [enable]
+    Disable) [disable]
+
+var-decl:
+    Newline)   [;]
+    NameValue) section-specifier_opt <name> word [=] <value> word [;]_opt / varlist_accept_var_decl/
+    Name)      section-specifier_opt <name> word                  [;]_opt /!varlist_accept_var_decl/
+
+*:
+    var-decl_opt_seq
+
